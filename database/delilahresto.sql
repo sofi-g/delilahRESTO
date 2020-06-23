@@ -3,6 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
+-- Generation Time: Jun 23, 2020 at 04:26 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -118,6 +119,13 @@ CREATE TABLE `Products` (
   `description` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `Products`
+--
+
+INSERT INTO `Products` (`product_id`, `product_name`, `price`, `description`) VALUES
+(3, 'Pizza', 500, 'Muzzarella');
+
 -- --------------------------------------------------------
 
 --
@@ -153,6 +161,14 @@ CREATE TABLE `User` (
   `password` varchar(255) NOT NULL,
   `role_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`user_id`, `username`, `fullname`, `email`, `phone`, `delivery_address`, `password`, `role_id`) VALUES
+(3, 'Sofi', 'Sofi Galfre', 'sofi@galfre', '123', 'Belgrano 10', '12345', 1),
+(4, 'Jose', 'Jose Lopez', 'jose@lopez', '123', 'Moreno 10', '12345', 2);
 
 --
 -- Indexes for dumped tables
@@ -221,13 +237,13 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Detail`
 --
 ALTER TABLE `Detail`
-  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Orders`
 --
 ALTER TABLE `Orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `OrderStatus`
@@ -245,13 +261,13 @@ ALTER TABLE `Payment`
 -- AUTO_INCREMENT for table `Products`
 --
 ALTER TABLE `Products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

@@ -67,9 +67,6 @@ npm i
 ~~~  
 node app.js  
 ~~~
-Se deberá ejecutar desde la carpeta **Proyecto3/delilahRESTO** 
-
-
 
 
 ##### Aclaración para pruebas
