@@ -28,8 +28,6 @@ app.get("/", (req, res) => {
 app.use(require('./src/routes/user_routes', register))
 app.use(require('./src/routes/user_routes', login))
 
-app.use(require('./src/middlewares/authenticate', authToken))
-
 app.use(require('./src/routes/product_routes', products))
 app.use(require('./src/routes/user_routes', getUsers))
 app.use(require('./src/routes/orders_routes', orders))

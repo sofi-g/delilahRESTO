@@ -46,7 +46,7 @@ Detail.belongsToMany(Order, {
 
 router
 
-    .post('/orders', (req, res) => {
+    .post('/orders', authToken, (req, res) => {
         Order.create({
             user_id: req.body.user_id,
             status_id: req.body.status_id,
@@ -65,7 +65,7 @@ router
         }) 
     })
 
-    .post('/orders/detail', (req, res) => {
+    .post('/orders/detail', authToken, (req, res) => {
         Detail.create({
             product_id: req.body.product_id,
             quantity: req.body.quantity,
@@ -81,7 +81,7 @@ router
         })
     })
 
-    .put('/orders/:id/detail', (req, res, next) => {
+    .put('/orders/:id/detail', authToken, (req, res, next) => {
         Order.findByPk(req.params.id)
             .then(order => {
                 return order.setOrderDetail(req.body.detail_id)

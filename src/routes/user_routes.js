@@ -80,7 +80,7 @@ const login = router.post('/users/login', (req, res) => {
 })
 
 
-const getUsers = router.get('/users', authAdmin, (req, res) => {
+const getUsers = router.get('/users', authToken, authAdmin, (req, res) => {
     User.findAll()
         .then((users) => {
             if (users) {

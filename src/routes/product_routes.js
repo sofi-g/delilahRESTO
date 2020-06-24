@@ -25,7 +25,7 @@ router
             })
     })
 
-    .get('/products', (req, res) => {
+    .get('/products', authToken, (req, res) => {
         Product.findAll()
             .then((product) => {
                 if (product) {
@@ -38,7 +38,7 @@ router
             })
     })
 
-    .get('/products/:id', (req, res) => {
+    .get('/products/:id', authToken, (req, res) => {
         let {
             id
         } = req.params
