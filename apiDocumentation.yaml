@@ -72,7 +72,7 @@ paths:
           description: Error validating input data
         '409':
           description: Account already exists
-  /user/login:
+  /users/login:
     post:
       tags:
         - user
