@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 23, 2020 at 04:26 PM
+-- Generation Time: Jun 26, 2020 at 05:23 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -31,7 +31,8 @@ CREATE TABLE `Detail` (
   `order_detail_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `subtotal` int(11) NOT NULL,
-  `product_id` int(11) DEFAULT NULL
+  `product_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -48,19 +49,6 @@ CREATE TABLE `Orders` (
   `user_id` int(11) DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `payment_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ordersHasDetail`
---
-
-CREATE TABLE `ordersHasDetail` (
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `order_detail_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -179,23 +167,17 @@ INSERT INTO `User` (`user_id`, `username`, `fullname`, `email`, `phone`, `delive
 --
 ALTER TABLE `Detail`
   ADD PRIMARY KEY (`order_detail_id`),
-  ADD KEY `Detail_ibfk_1` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `Detail_ibfk_2` (`order_id`);
 
 --
 -- Indexes for table `Orders`
 --
 ALTER TABLE `Orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `Orders_ibfk_3` (`payment_id`),
-  ADD KEY `Orders_ibfk_1` (`user_id`),
-  ADD KEY `Orders_ibfk_2` (`status_id`);
-
---
--- Indexes for table `ordersHasDetail`
---
-ALTER TABLE `ordersHasDetail`
-  ADD PRIMARY KEY (`order_id`,`order_detail_id`),
-  ADD KEY `order_detail_id` (`order_detail_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `status_id` (`status_id`),
+  ADD KEY `payment_id` (`payment_id`);
 
 --
 -- Indexes for table `OrderStatus`
@@ -237,13 +219,13 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Detail`
 --
 ALTER TABLE `Detail`
-  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Orders`
 --
 ALTER TABLE `Orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `OrderStatus`
@@ -277,22 +259,16 @@ ALTER TABLE `User`
 -- Constraints for table `Detail`
 --
 ALTER TABLE `Detail`
-  ADD CONSTRAINT `Detail_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `Products` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `Detail_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `Products` (`product_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `Detail_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Orders`
 --
 ALTER TABLE `Orders`
-  ADD CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `OrderStatus` (`status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `Orders_ibfk_3` FOREIGN KEY (`payment_id`) REFERENCES `Payment` (`payment_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `ordersHasDetail`
---
-ALTER TABLE `ordersHasDetail`
-  ADD CONSTRAINT `ordersHasDetail_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ordersHasDetail_ibfk_2` FOREIGN KEY (`order_detail_id`) REFERENCES `Detail` (`order_detail_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Products` (`product_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `OrderStatus` (`status_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `Orders_ibfk_3` FOREIGN KEY (`payment_id`) REFERENCES `Payment` (`payment_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `User`

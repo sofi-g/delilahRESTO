@@ -89,7 +89,7 @@ paths:
           schema:
             type: object
             properties:
-              username:
+              email:
                 type: string
               password:
                 type: string
@@ -321,37 +321,6 @@ paths:
             $ref: '#/definitions/order_detail_created'
         '400':
           description: Error
-  '/orders/{order_id}/detail':
-    put:
-      tags:
-        - orders
-      summary: Add detail to an order
-      description: ''
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: path
-          name: order_id
-          required: true
-          type: integer
-          format: int64
-        - in: body
-          name: body
-          description: Order status that needs to be updated in the store
-          required: true
-          schema:
-            $ref: '#/definitions/detail_id'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/orderHasDetail'
-        '404':
-          description: Order not found
-        '405':
-          description: Invalid status suplied
   '/orders/{order_id}':
     put:
       tags:
@@ -556,20 +525,7 @@ definitions:
             subtotal:
               type: integer
               example: '500'
-            OrderHasDetail:
-              type: array
-              items:
-                type: object
-                properties:
-                  order_id:
-                    type: integer
-                  order_detail_id:
-                    type: integer
-                    example: '2'
-                  createAt:
-                    type: string
-                  updatedAt:
-                    type: string
+       
   order_sent:
     type: object
     properties:
@@ -618,6 +574,9 @@ definitions:
   order_detail:
     type: object
     properties:
+      order_id:
+        type: integer
+        example: '1'
       product_id:
         type: integer
         example: '3'
@@ -632,6 +591,10 @@ definitions:
     properties:
       order_detail_id:
         type: integer
+        example: '1'
+      order_id:
+        type: integer
+        example: '1'
       product_id:
         type: integer
         example: '2'
@@ -641,21 +604,5 @@ definitions:
       subtotal:
         type: integer
         example: '500'
-  detail_id:
-    type: object
-    properties:
-      detail_id:
-        type: integer
-        example: '5'
-  orderHasDetail:
-    type: object
-    properties:
-      order_id:
-        type: integer
-      order_detail_id:
-        type: integer
-        example: '2'
-      createAt:
-        type: string
-      updatedAt:
-        type: string
+
+

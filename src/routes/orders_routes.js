@@ -30,15 +30,11 @@ Order.belongsTo(Payment, {
     foreignKey: 'payment_id'
 })
 
-Order.belongsToMany(Detail, {
-    as: 'OrderDetail',
-    through: 'ordersHasDetail',
+Order.hasMany(Detail, {
     foreignKey: 'order_id'
 })
-Detail.belongsToMany(Order, {
-    as: 'OrderDetail',
-    through: 'ordersHasDetail',
-    foreignKey: 'order_detail_id'
+Detail.belongsTo(Order, {
+    foreignKey: 'order_id'
 })
 
 
@@ -48,6 +44,7 @@ router
 
     .post('/orders', authToken, (req, res) => {
         Order.create({
+            order_id: req.body.order_id,
             user_id: req.body.user_id,
             status_id: req.body.status_id,
             payment_id: req.body.payment_id,
@@ -67,6 +64,7 @@ router
 
     .post('/orders/detail', authToken, (req, res) => {
         Detail.create({
+            order_id: req.body.order_id,
             product_id: req.body.product_id,
             quantity: req.body.quantity,
             subtotal: req.body.subtotal
@@ -79,15 +77,6 @@ router
             .status(400)
             .send('error:' + '' + err)
         })
-    })
-
-    .put('/orders/:id/detail', authToken, (req, res, next) => {
-        Order.findByPk(req.params.id)
-            .then(order => {
-                return order.setOrderDetail(req.body.detail_id)
-            })
-            .then(res.send.bind(res))
-            .catch(next)
     })
 
     .get('/orders', authAdmin, (req, res) => {
@@ -105,30 +94,9 @@ router
         })
     })
 
-    .get('/orders/detail', authAdmin, (req, res) => {
-        Detail.findAll({
-                include: [Product]
-        })
-        .then((detail) => {
-            if (detail) {
-                res
-                .json(detail)
-                .status(200)
-            } else {
-                res
-                .status(400)
-                .send("Not Found")
-            }
-        })
-    })
-
     .get('/orders/:id', authAdmin, (req, res) => {
         let {id} = req.params
-        Order.findByPk(id, {
-                include: [{
-                    all: true
-                }]
-            })
+        Order.findByPk(id, {include: [{all: true}]})
             .then((order) => {
                 if (order) {
                     res.json(order)
@@ -169,6 +137,7 @@ router
                 res
                     .status(200)
                     .send('the order was deleted')
+            
             })
         })
     })
